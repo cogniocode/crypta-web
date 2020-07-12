@@ -1,19 +1,8 @@
-# crypta-web
+# Crypta Web UI
 
-## Project setup
-```
-npm install
-```
+Web interface for Crypta service.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## License
+This project is released under [GNU GPLv3](https://opensource.org/licenses/GPL-3.0) license.
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Copyright © 2020 Andrey "cognio" Chervyakov.
