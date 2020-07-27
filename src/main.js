@@ -6,22 +6,19 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 
-Vue.use(Atomio)
-
-Vue.config.productionTip = false
-
-//TODO: Change to an actual IP.
-Axios.defaults.baseURL = `https://${window.location.hostname}/api`
-
-const atomio = new Atomio.Config({
+Vue.use(Atomio, {
     theming: {
         currentTheme: "primary"
     }
 })
 
+Vue.config.productionTip = false
+
+//TODO: Change to an actual IP.
+Axios.defaults.baseURL = "https://crypta.cognio.dev/api"
+
 new Vue({
     router,
     store,
-    atomio,
     render: h => h(App)
 }).$mount('#app')
