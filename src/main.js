@@ -14,7 +14,6 @@ Vue.use(Atomio, {
 
 Vue.config.productionTip = false
 
-//TODO: Change to an actual IP.
 Axios.defaults.baseURL = "https://crypta.cognio.dev/api"
 
 new Vue({
