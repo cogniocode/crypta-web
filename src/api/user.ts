@@ -1,6 +1,7 @@
-import Axios, {AxiosRequestConfig} from 'axios'
-import type {ApiResult} from '@/types/api'
-import type {UserRetrievalDTO, UserCreationDTO} from "@/types/api/user";
+import Axios from 'axios'
+import type { ApiResult } from '@/types/api'
+import type { UserRetrievalDTO, UserCreationDTO } from '@/types/api/user'
+import { getDefaultConfig } from './util'
 
 const USER_API_PATH = '/users'
 
@@ -50,12 +51,4 @@ export async function deleteUserById(id: number, token: string): Promise<ApiResu
 
 function getPathWithId(id: number) {
     return `${USER_API_PATH}/${id}`
-}
-
-function getDefaultConfig(options: any): AxiosRequestConfig {
-    return {
-        headers: {
-            Authorization: `Bearer ${options.token}`
-        }
-    }
 }
