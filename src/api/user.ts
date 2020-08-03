@@ -4,8 +4,8 @@ import { ApiError, getDefaultAxiosConfig } from './util'
 
 const USER_API_PATH = '/users'
 
-export async function createUser(userDTO: UserCreationDTO, token: string): Promise<UserRetrievalDTO> {
-    const result = await Axios.post(USER_API_PATH, userDTO, getDefaultAxiosConfig({token}))
+export async function createUser(userDTO: UserCreationDTO): Promise<UserRetrievalDTO> {
+    const result = await Axios.post(USER_API_PATH, userDTO)
 
     if (result.status === 201) {
         return result.data
