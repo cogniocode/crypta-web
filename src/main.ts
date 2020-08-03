@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Atomio from 'atomio-vue'
+import "atomio-vue/dist/atomio.min.css"
 import Axios from 'axios'
 import App from './App.vue'
 import './registerServiceWorker'
