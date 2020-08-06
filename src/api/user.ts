@@ -12,8 +12,16 @@ export async function createUser(userDTO: UserCreationDTO): Promise<UserRetrieva
     } else throw new ApiError(result.data.message, result.status)
 }
 
+export async function getUserByUsername(username: string, token: string): Promise<UserRetrievalDTO> {
+    const result = await Axios.get(buildPath(username), getDefaultAxiosConfig({token}))
+
+    if (result.status === 200) {
+        return result.data
+    } else throw new ApiError(result.data.message, result.status)
+}
+
 export async function getUserById(id: number, token: string): Promise<UserRetrievalDTO> {
-    const result = await Axios.get(getPathWithId(id), getDefaultAxiosConfig({token}))
+    const result = await Axios.get(buildPath(id), getDefaultAxiosConfig({token}))
 
     if (result.status === 200) {
         return result.data
@@ -21,13 +29,13 @@ export async function getUserById(id: number, token: string): Promise<UserRetrie
 }
 
 export async function deleteUserById(id: number, token: string) {
-    const result = await Axios.delete(getPathWithId(id), getDefaultAxiosConfig({token}))
+    const result = await Axios.delete(buildPath(id), getDefaultAxiosConfig({token}))
 
     if (result.status !== 204) {
         throw new ApiError(result.data.message, result.status)
     }
 }
 
-function getPathWithId(id: number) {
-    return `${USER_API_PATH}/${id}`
+function buildPath(value: any) {
+    return `${USER_API_PATH}/${value}`
 }
