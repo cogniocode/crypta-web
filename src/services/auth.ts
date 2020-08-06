@@ -1,7 +1,8 @@
 import { AuthCredentials } from "@/types/api/auth"
 import { getAuthToken } from "@/api/auth"
 import { ApiError } from "@/api/util"
-import {ServiceError} from "@/services/util";
+import {ServiceError} from "@/services/util"
+import jwtDecode from "jwt-decode"
 
 const AUTH_TOKEN_LOCAL_STORAGE_KEY = 'token'
 
@@ -25,6 +26,14 @@ export function signOut() {
 
 export function isAuthenticated() {
     return localStorage.getItem(AUTH_TOKEN_LOCAL_STORAGE_KEY) != null
+}
+
+export function getUsernameFromToken() {
+    const token = getToken()
+
+    if (token != null) {
+        return (jwtDecode(token) as any).sub
+    } else return null
 }
 
 export function getToken(): string | null {
