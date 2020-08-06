@@ -8,8 +8,9 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "atomio-vue": "^0.5.2",
     "axios": "^0.19.2",
+    "bootstrap": "^4.5.1",
+    "bootstrap-vue": "^2.16.0",
     "core-js": "^3.6.5",
     "jwt-decode": "^2.2.0",
     "register-service-worker": "^1.7.1",

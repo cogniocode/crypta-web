@@ -1,17 +1,15 @@
 import Vue from 'vue'
-import Atomio from 'atomio-vue'
-import "atomio-vue/dist/atomio.min.css"
+import {BootstrapVue, BootstrapVueIcons} from "bootstrap-vue"
+import "bootstrap/dist/css/bootstrap.css"
+import "bootstrap-vue/dist/bootstrap-vue.css"
 import Axios from 'axios'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
 
-Vue.use(Atomio, {
-    theming: {
-        currentTheme: "primary"
-    }
-})
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 
 Vue.config.productionTip = false
 

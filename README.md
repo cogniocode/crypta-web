@@ -6,10 +6,10 @@ This is portfolio project.
 
 ## Technologies
 - Vue
+- BootstrapVue
 - Sass
 - TypeScript
 - Jest
-- Atomio
 
 ## License
 This project is released under [GNU GPLv3](https://opensource.org/licenses/GPL-3.0) license.

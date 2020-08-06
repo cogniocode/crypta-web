@@ -1,62 +1,60 @@
 <template>
-    <atomio-form @submit="handleSubmit" ref="form" class="sign-up-form">
-        <atomio-field class="sign-up-form__username-field">
-            <atomio-text-input
-                class="sign-up-form__username-field__input"
-                v-model="fields.username.value"
-                :rules="fields.username.rules"
-            />
-        </atomio-field>
-        <atomio-field class="sign-up-form__email-field">
-            <atomio-text-input
-                class="sign-up-form__email-field__input"
-                type="email"
-                v-model="fields.email.value"
-                :rules="fields.email.rules"
-            />
-        </atomio-field>
-        <atomio-field class="sign-up-form__password-field">
-            <atomio-text-input
-                class="sign-up-form__password-field__input"
-                type="password"
-                v-model="fields.password.value"
-                :rules="fields.password.rules"
-            />
-        </atomio-field>
-        <template #submit-button>
-            Sign up
-        </template>
-    </atomio-form>
+    <b-form>
+        <b-form-group label="Username">
+            <b-form-input v-model="fields.username.value"/>
+        </b-form-group>
+        <b-form-group label="Email">
+            <b-form-input v-model="fields.email.value"/>
+        </b-form-group>
+        <b-form-group label="Password">
+            <b-form-input type="password" v-model="fields.password.value"/>
+        </b-form-group>
+        <b-button type="submit" variant="primary" block>Sign up</b-button>
+    </b-form>
 </template>
 
 <script>
+    import { signUp } from "@/services/user"
+    import * as userMutationTypes from "@/store/modules/user/mutationTypes"
+
     export default {
         name: "SignUpForm",
         data() {
             return {
                 fields: {
                     username: {
-                        value: "",
-                        rules: []
+                        value: ""
                     },
                     email: {
-                        value: "",
-                        rules: []
+                        value: ""
                     },
                     password: {
-                        value: "",
-                        rules: []
+                        value: ""
                     }
                 }
             }
         },
         methods: {
-            handleSubmit() {
+            async handleSubmit() {
                 const form = this.$refs.form
                 const validation = form.validate()
 
                 if (validation.result === true) {
-                    form.clear()
+                    try {
+                        const createdUser = await signUp({
+                            username: this.fields.username.value,
+                            email: this.fields.email.value,
+                            password: this.fields.password.value
+                        })
+
+                        this.$store.commit(`user/${userMutationTypes.SET_USER}`, createdUser)
+
+                        form.clear()
+
+                        await this.$router.push({name: "Dashboard"})
+                    } catch (e) {
+                        //TODO: Handle error.
+                    }
                 }
             }
         }

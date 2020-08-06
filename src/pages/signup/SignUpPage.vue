@@ -1,6 +1,14 @@
 <template>
     <page class="sign-up-page">
-        <sign-up-form/>
+        <main>
+            <b-container class="sign-up-page__container">
+                <b-row align-h="center">
+                    <b-col lg="4" md="6" sm="12">
+                        <sign-up-form/>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </main>
     </page>
 </template>
 
@@ -14,6 +22,8 @@
     }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+    .sign-up-page__container {
+        height: 100%;
+    }
 </style>
