@@ -5,6 +5,7 @@ export default {
     name: "Sign in",
     component: SignInPage,
     meta: {
-        requiresAnonymous: true
+        requiresAnonymous: true,
+        title: "Sign in"
     }
 }

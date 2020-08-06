@@ -4,12 +4,12 @@ export default {
     path: "/",
     name: "Home",
     redirect(to) {
-        if (isAuthenticated()) {
+        if (!isAuthenticated()) {
             return {
-                name: "Dashboard"
+                name: "Sign in"
             }
-        } else return {
-            name: "Sign in"
-        }
+        } /*else return {
+            name: "Dashboard"
+        }*/
     }
 }
