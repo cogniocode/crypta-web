@@ -8,8 +8,8 @@ export default {
             return {
                 name: "Sign in"
             }
-        } /*else return {
-            name: "Dashboard"
-        }*/
+        } else return {
+            name: "Passwords"
+        }
     }
 }
