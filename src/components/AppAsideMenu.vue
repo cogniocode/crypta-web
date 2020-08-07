@@ -36,19 +36,15 @@
             </b-collapse>
         </div>
         <hr>
-        <div class="app-aside-menu__other-links">
-            <li class="app-aside-menu__nav__list__item">
-                <b-link to="/settings" :disabled="currentPagePath === '/settings'" class="app-aside-menu__nav__list__item__link">
-                    <b-icon icon="gear-fill"/>
-                    Settings
-                </b-link>
-            </li>
-            <li class="app-aside-menu__nav__list__item">
-                <b-link to="/about" :disabled="currentPagePath === '/about'" class="app-aside-menu__nav__list__item__link">
-                    <b-icon icon="info-circle-fill"/>
-                    About
-                </b-link>
-            </li>
+        <div class="app-aside-menu__other">
+            <b-link to="/settings" :disabled="currentPagePath === '/settings'" class="app-aside-menu__nav__list__item__link app-aside-menu__other__link">
+                <b-icon icon="gear-fill"/>
+                Settings
+            </b-link>
+            <b-link to="/about" :disabled="currentPagePath === '/about'" class="app-aside-menu__nav__list__item__link app-aside-menu__other__link">
+                <b-icon icon="info-circle-fill"/>
+                About
+            </b-link>
         </div>
         <hr>
         <div class="app-aside-menu__footer d-flex flex-column">
@@ -114,6 +110,19 @@
         .b-icon {
             font-size: 1.25rem;
             margin-right: .75rem;
+        }
+    }
+
+    .app-aside-menu__other {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .app-aside-menu__other__link {
+        margin-bottom: 15px;
+
+        &:last-child {
+            margin-bottom: 0;
         }
     }
 
