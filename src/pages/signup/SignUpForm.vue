@@ -1,5 +1,5 @@
 <template>
-    <b-form>
+    <b-form @submit="handleSubmit" class="sign-up-form">
         <b-form-group label="Username">
             <b-form-input v-model="fields.username.value"/>
         </b-form-group>
@@ -35,11 +35,10 @@
             }
         },
         methods: {
-            async handleSubmit() {
-                const form = this.$refs.form
-                const validation = form.validate()
+            async handleSubmit(e) {
+                e.preventDefault()
 
-                if (validation.result === true) {
+                if (false === true) {
                     try {
                         const createdUser = await signUp({
                             username: this.fields.username.value,
