@@ -1,12 +1,21 @@
 <template>
     <b-form @submit="handleSubmit" class="sign-in-form">
         <b-form-group label="Username">
-            <b-form-input v-model="fields.username.value"/>
+            <b-input-group>
+                <b-form-input v-model="fields.username.value"/>
+            </b-input-group>
         </b-form-group>
         <b-form-group label="Password">
-            <b-form-input type="password" v-model="fields.password.value"/>
+            <b-input-group>
+                <b-form-input :type="fields.password.visible ? 'text' : 'password'" v-model="fields.password.value"/>
+                <template #append>
+                    <b-button @click="switchPasswordField">
+                        <b-icon :icon="fields.password.visible ? 'eye-slash-fill' : 'eye-fill'"></b-icon>
+                    </b-button>
+                </template>
+            </b-input-group>
         </b-form-group>
-        <b-overlay rounded :show="loading" spinner-small spinner-variant="primary">
+        <b-overlay rounded="true" :show="loading" spinner-small spinner-variant="primary">
             <b-button type="submit" variant="primary" block>Sign in</b-button>
         </b-overlay>
     </b-form>
@@ -28,12 +37,16 @@
                         value: ""
                     },
                     password: {
-                        value: ""
+                        value: "",
+                        visible: false
                     }
                 }
             }
         },
         methods: {
+            switchPasswordField() {
+                this.fields.password.visible = !this.fields.password.visible
+            },
             async handleSubmit(e) {
                 e.preventDefault()
 
@@ -52,11 +65,10 @@
 
                     this.loading = false
 
-                    // await this.$router.push({name: "Dashboard"})
+                    await this.$router.push({name: "Home"})
                 } catch (e) {
                     if (e instanceof ServiceError) {
                         this.loading = false
-                        console.error(e.message)
                     }
                 }
             }
