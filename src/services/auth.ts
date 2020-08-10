@@ -1,23 +1,13 @@
 import { AuthCredentials } from "@/types/api/auth"
 import { getAuthToken } from "@/api/auth"
-import { ApiError } from "@/api/util"
-import {ServiceError} from "@/services/util"
 import jwtDecode from "jwt-decode"
 
 const AUTH_TOKEN_LOCAL_STORAGE_KEY = 'token'
 
 export async function signIn(credentials: AuthCredentials) {
-    try {
-        const token = await getAuthToken(credentials)
+    const token = await getAuthToken(credentials)
 
-        saveToken(token)
-    } catch (e) {
-        if (e instanceof ApiError) {
-            throw new ServiceError(`Couldn't authenticate user: ${e.statusCode} - ${e.message}`)
-        } else {
-            throw e
-        }
-    }
+    saveToken(token)
 }
 
 export function signOut() {
