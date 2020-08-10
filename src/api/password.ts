@@ -2,16 +2,61 @@ import {PasswordCreationDTO, PasswordRetrievalDTO} from "@/types/api/password"
 import Axios from "axios"
 import {ApiError, getDefaultAxiosConfig} from "@/api/util"
 
-const PASSWORD_API_PATH = '/passwords'
+const passwordApiPath = (userId: number, passwordId?: number) =>
+    passwordId ? `/users/${userId}/passwords/${passwordId}` : `/users/${userId}/passwords`
 
-export async function createPassword(passwordDTO: PasswordCreationDTO, token: string): Promise<PasswordRetrievalDTO> {
-    const result = await Axios.post(PASSWORD_API_PATH, passwordDTO, getDefaultAxiosConfig({token}))
+export async function createPassword(userId: number, passwordDTO: PasswordCreationDTO, token: string): Promise<PasswordRetrievalDTO> {
+    try {
+        const result = await Axios.post(passwordApiPath(userId), passwordDTO, getDefaultAxiosConfig({token}))
 
-    if (result.status === 201) {
-        return result.data
-    } else throw new ApiError(result.data.message, result.status)
+        if (result.status === 201) {
+            return result.data
+        } else throw new ApiError(result.data.message, result.status)
+    } catch (e) {
+        if (e.isAxiosError) {
+            throw new ApiError("Server unreachable.", 500)
+        } else throw e
+    }
 }
 
-export async function getPassword(id: number, token: string) {
+export async function getPasswordById(userId: number, passwordId: number, token: string): Promise<PasswordRetrievalDTO> {
+    try {
+        const result = await Axios.get(passwordApiPath(userId, passwordId), getDefaultAxiosConfig({token}))
 
+        if (result.status === 200) {
+            return result.data
+        } else throw new ApiError(result.data.message, result.status)
+    } catch (e) {
+        if (e.isAxiosError) {
+            throw new ApiError("Server unreachable.", 500)
+        } else throw e
+    }
+}
+
+export async function getUserPasswords(userId: number, token: string): Promise<Array<PasswordRetrievalDTO>> {
+    try {
+        const result = await Axios.get(passwordApiPath(userId), getDefaultAxiosConfig({token}))
+
+        if (result.status === 200) {
+            return result.data
+        } else throw new ApiError(result.data.message, result.status)
+    } catch (e) {
+        if (e.isAxiosError) {
+            throw new ApiError("Server unreachable.", 500)
+        } else throw e
+    }
+}
+
+export async function deletePasswordById(userId: number, passwordId: number, token: string) {
+    try {
+        const result = await Axios.delete(passwordApiPath(userId, passwordId), getDefaultAxiosConfig({token}))
+
+        if (result.status !== 204) {
+            throw new ApiError(result.data.message, result.status)
+        }
+    } catch (e) {
+        if (e.isAxiosError) {
+            throw new ApiError("Server unreachable.", 500)
+        } else throw e
+    }
 }
