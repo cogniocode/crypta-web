@@ -35,8 +35,4 @@
 
     @import "~bootstrap/scss/bootstrap";
     @import "~bootstrap-vue/src";
-
-    html, body {
-        height: 100%;
-    }
 </style>
