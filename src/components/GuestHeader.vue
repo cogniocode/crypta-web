@@ -1,16 +1,18 @@
 <template>
     <header class="guest-header">
         <b-container>
-            <b-col cols="12" class="h-100 w-100">
-                <h2 class="guest-header__title">Crypta</h2>
+            <b-col cols="12" class="h-100 w-100 d-flex justify-content-center align-items-center">
+                <crypta-logo/>
             </b-col>
         </b-container>
     </header>
 </template>
 
 <script>
+    import CryptaLogo from "@/components/CryptaLogo";
     export default {
-        name: "GuestHeader"
+        name: "GuestHeader",
+        components: {CryptaLogo}
     }
 </script>
 
