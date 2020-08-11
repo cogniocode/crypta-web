@@ -5,17 +5,15 @@
 </template>
 
 <script>
-    import {isAuthenticated, signOut} from "@/services/auth"
-    import {getAuthUser} from "@/services/user"
-    import * as userMutationTypes from "@/store/modules/user/mutationTypes"
+    import {isTokenPresent} from "@/services/token"
+    import {populateAuthUser, signOut} from "@/services/user"
 
     export default {
         methods: {
-            async getUserIfAuth() {
-                if (isAuthenticated()) {
+            async populateData() {
+                if (isTokenPresent()) {
                     try {
-                        const user = await getAuthUser()
-                        this.$store.commit(`user/${userMutationTypes.SET_USER}`, user)
+                        await populateAuthUser()
                     } catch (e) {
                         signOut()
                         await this.$router.push({name: "Home"})
@@ -24,14 +22,14 @@
             }
         },
         async mounted() {
-            await this.getUserIfAuth()
+            await this.populateData()
         }
     }
 </script>
 
 <style lang="scss">
     $primary: #2a5342;
-    $font-family-sans-serif: "Open Sans";
+    $font-family-sans-serif: Inter;
 
     @import "~bootstrap/scss/bootstrap";
     @import "~bootstrap-vue/src";
