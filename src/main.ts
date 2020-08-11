@@ -14,8 +14,10 @@ Vue.config.productionTip = false
 Axios.defaults.baseURL = "https://crypta.cognio.dev/api"
 Axios.defaults.validateStatus = status => status < 500
 
-new Vue({
+const vm = new Vue({
     router,
     store,
     render: h => h(App)
 }).$mount('#app')
+
+export default vm
