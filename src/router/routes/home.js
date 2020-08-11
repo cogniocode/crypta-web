@@ -1,10 +1,10 @@
-import {isAuthenticated} from "@/services/auth";
+import {isTokenPresent} from "@/services/token";
 
 export default {
     path: "/",
     name: "Home",
     redirect(to) {
-        if (!isAuthenticated()) {
+        if (!isTokenPresent()) {
             return {
                 name: "Sign in"
             }

@@ -1,4 +1,4 @@
-import {isAuthenticated} from "@/services/auth";
+import {isTokenPresent} from "@/services/token";
 
 export function registerGuards(router) {
     registerRequiresAnonymousGuard(router)
@@ -9,7 +9,7 @@ export function registerGuards(router) {
 function registerRequiresAuthGuard(router) {
     router.beforeEach((to, from, next) => {
         if (to.meta.requiresAuth) {
-            if (!isAuthenticated()) {
+            if (!isTokenPresent()) {
                 next({
                     name: "Sign in"
                 })
@@ -25,7 +25,7 @@ function registerRequiresAuthGuard(router) {
 function registerRequiresAnonymousGuard(router) {
     router.beforeEach((to, from, next) => {
         if (to.meta.requiresAnonymous) {
-            if (isAuthenticated()) {
+            if (isTokenPresent()) {
                 next({
                     name: "Home"
                 })
