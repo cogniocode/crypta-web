@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import {signOut} from "@/services/auth"
+    import {signOut} from "@/services/user"
     import CryptaLogo from "@/components/CryptaLogo"
     import md5 from "md5"
 
