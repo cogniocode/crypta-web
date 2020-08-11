@@ -1,5 +1,8 @@
 <template>
     <b-form @submit="handleSubmit" class="sign-in-form">
+        <b-alert :show="error != null" variant="danger" class="mb-3">
+            {{ error }}
+        </b-alert>
         <b-form-group label="Username">
             <b-input-group>
                 <b-form-input v-model="fields.username.value"/>
@@ -16,22 +19,22 @@
             </b-input-group>
         </b-form-group>
         <b-overlay rounded="true" :show="loading" spinner-small spinner-variant="primary">
-            <b-button type="submit" variant="primary" block>Sign in</b-button>
+            <b-button type="submit" :disabled="buttonDisabled" variant="primary" block>Sign in</b-button>
         </b-overlay>
     </b-form>
 </template>
 
 <script>
-    import {signIn} from "@/services/auth";
-    import {ServiceError} from "@/services/util"
-    import {getAuthUser} from "@/services/user"
-    import * as userMutationTypes from "@/store/modules/user/mutationTypes"
+    import { signIn } from "@/services/user"
+    import { ApiError } from "@/api/util"
 
     export default {
         name: "SignInForm",
         data() {
             return {
                 loading: false,
+                error: null,
+                buttonDisabled: false,
                 fields: {
                     username: {
                         value: ""
@@ -47,6 +50,15 @@
             switchPasswordField() {
                 this.fields.password.visible = !this.fields.password.visible
             },
+            showSuccessToast() {
+                this.$bvToast.toast("Successfully signed in. Redirecting...", {
+                    title: "Sign in",
+                    variant: "success",
+                    solid: true,
+                    toaster: "b-toaster-bottom-right",
+                    autoHideDelay: 2000
+                })
+            },
             async handleSubmit(e) {
                 e.preventDefault()
 
@@ -55,20 +67,30 @@
                     password: this.fields.password.value
                 }
 
-                try {
-                    this.loading = true
+                this.error = null
+                this.loading = true
+                this.buttonDisabled = false
 
+                try {
                     await signIn(credentials)
 
-                    const user = await getAuthUser()
-                    this.$store.commit(`user/${userMutationTypes.SET_USER}`, user)
-
                     this.loading = false
+                    this.buttonDisabled = true
 
-                    await this.$router.push({name: "Home"})
+                    this.showSuccessToast()
+
+                    setTimeout(async () => {
+                        await this.$router.push({name: "Home"})
+                    }, 2000)
                 } catch (e) {
-                    if (e instanceof ServiceError) {
+                    if (e instanceof ApiError) {
                         this.loading = false
+
+                        if (e.statusCode === 403) {
+                            this.error = "Invalid username or password."
+                        } else {
+                            this.error = e.message
+                        }
                     }
                 }
             }
