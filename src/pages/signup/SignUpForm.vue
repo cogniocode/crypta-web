@@ -4,13 +4,32 @@
             {{ error }}
         </b-alert>
         <b-form-group label="Username">
-            <b-form-input v-model="fields.username.value"/>
+            <b-input-group>
+                <template #prepend>
+                    <b-input-group-text>
+                        <b-icon icon="person-fill"/>
+                    </b-input-group-text>
+                </template>
+                <b-form-input v-model="fields.username.value"/>
+            </b-input-group>
         </b-form-group>
         <b-form-group label="Email">
-            <b-form-input v-model="fields.email.value"/>
+            <b-input-group>
+                <template #prepend>
+                    <b-input-group-text>
+                        <b-icon icon="envelope-fill"/>
+                    </b-input-group-text>
+                </template>
+                <b-form-input v-model="fields.email.value"/>
+            </b-input-group>
         </b-form-group>
         <b-form-group label="Password">
             <b-input-group>
+                <template #prepend>
+                    <b-input-group-text>
+                        <b-icon icon="key-fill"/>
+                    </b-input-group-text>
+                </template>
                 <b-form-input :type="fields.password.visible ? 'text' : 'password'" v-model="fields.password.value"/>
                 <template #append>
                     <b-button @click="switchPasswordField">
@@ -20,15 +39,13 @@
             </b-input-group>
         </b-form-group>
         <b-overlay rounded="true" :show="loading" spinner-small spinner-variant="primary">
-            <b-button type="submit" :disabled="buttonDisabled" variant="primary" block>Sign up</b-button>
+            <b-button size="lg" type="submit" :disabled="buttonDisabled" variant="primary" block>Sign up</b-button>
         </b-overlay>
     </b-form>
 </template>
 
 <script>
     import { signUp } from "@/services/user"
-    import * as userMutationTypes from "@/store/modules/user/mutationTypes"
-    import { signIn } from "@/services/token"
     import { ApiError } from "@/api/util"
 
     export default {

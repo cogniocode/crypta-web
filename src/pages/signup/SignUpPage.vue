@@ -1,16 +1,14 @@
 <template>
     <page class="sign-up-page">
         <guest-layout>
-            <b-container class="sign-up-page__container">
-                <b-col lg="4" md="6" sm="12">
-                    <div class="sign-up-page__sign-up-block">
-                        <h3 class="sign-up-page__sign-up-block__title">
-                            Sign up
-                        </h3>
-                        <sign-up-form class="mt-4"/>
-                    </div>
-                </b-col>
-            </b-container>
+            <b-col lg="5" md="7" sm="12">
+                <div class="sign-up-page__sign-up-block p-5 bg-light">
+                    <h3 class="sign-up-page__sign-up-block__title text-primary w-100">
+                        Sign up
+                    </h3>
+                    <sign-up-form class="mt-5"/>
+                </div>
+            </b-col>
         </guest-layout>
     </page>
 </template>
@@ -27,10 +25,11 @@
 </script>
 
 <style lang="scss" scoped>
-    .sign-up-page__container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-grow: 1;
+    .sign-up-page__sign-up-block {
+        border-radius: .5rem;
+    }
+
+    .sign-up-page__sign-up-block__title {
+        text-align: center;
     }
 </style>

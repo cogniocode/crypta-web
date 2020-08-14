@@ -1,17 +1,15 @@
 <template>
     <page class="sign-in-page">
         <guest-layout>
-            <b-container class="sign-in-page__container">
-                <b-col lg="4" md="6" sm="12">
-                    <div class="sign-in-page__sign-in-block">
-                        <h3 class="sign-in-page__sign-in-block__title">
-                            Sign in
-                        </h3>
-                        <sign-in-form class="sign-in-page__sign-in-block__sign-in-form mb-3 mt-4"/>
-                        <b-link class="sign-in-page__sign-in-block__sign-up-link" to="/signup">Sign up</b-link>
-                    </div>
-                </b-col>
-            </b-container>
+            <b-col lg="5" md="7" sm="12">
+                <div class="sign-in-page__sign-in-block p-5 bg-light">
+                    <h3 class="sign-in-page__sign-in-block__title text-primary w-100">
+                        Sign in
+                    </h3>
+                    <sign-in-form class="sign-in-page__sign-in-block__sign-in-form mb-3 mt-5"/>
+                    <b-link class="sign-in-page__sign-in-block__sign-up-link" to="/signup">Sign up</b-link>
+                </div>
+            </b-col>
         </guest-layout>
     </page>
 </template>
@@ -28,11 +26,13 @@
 </script>
 
 <style lang="scss" scoped>
-    .sign-in-page__container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-grow: 1;
+    .sign-in-page__sign-in-block {
+        border-radius: .5rem;
+    }
+
+    .sign-in-page__sign-in-block__title {
+        margin: 0;
+        text-align: center;
     }
 
     .sign-in-page__sign-in-block__sign-up-link {

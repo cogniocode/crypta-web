@@ -5,11 +5,21 @@
         </b-alert>
         <b-form-group label="Username">
             <b-input-group>
+                <template #prepend>
+                    <b-input-group-text>
+                        <b-icon icon="person-fill"/>
+                    </b-input-group-text>
+                </template>
                 <b-form-input v-model="fields.username.value"/>
             </b-input-group>
         </b-form-group>
         <b-form-group label="Password">
             <b-input-group>
+                <template #prepend>
+                    <b-input-group-text>
+                        <b-icon icon="key-fill"/>
+                    </b-input-group-text>
+                </template>
                 <b-form-input :type="fields.password.visible ? 'text' : 'password'" v-model="fields.password.value"/>
                 <template #append>
                     <b-button @click="switchPasswordField">
@@ -19,7 +29,7 @@
             </b-input-group>
         </b-form-group>
         <b-overlay rounded="true" :show="loading" spinner-small spinner-variant="primary">
-            <b-button type="submit" :disabled="buttonDisabled" variant="primary" block>Sign in</b-button>
+            <b-button size="lg" type="submit" :disabled="buttonDisabled" variant="primary" block>Sign in</b-button>
         </b-overlay>
     </b-form>
 </template>
