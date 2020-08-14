@@ -1,46 +1,58 @@
 <template>
     <page class="passwords-page">
         <app-layout>
-            <b-col cols="6" class="pt-3 pb-3">
-                <div class="passwords-page__header">
-                    <h3 class="passwords-page__header__title m-0 text-muted">
-                        Passwords
-                    </h3>
-                    <b-button class="passwords-page__header__create-button ml-auto" variant="primary">
-                        <b-icon icon="plus"/>
-                        Create password
-                    </b-button>
-                    <b-dropdown right class="passwords-page__header__options-dropdown ml-2">
-                        <template #button-content>
-                            <b-icon icon="three-dots-vertical" class="mr-1"/>
-                        </template>
-                        <b-dropdown-form>
-
-                        </b-dropdown-form>
-                    </b-dropdown>
-                </div>
+            <b-col cols="6" class="border-right border-muted p-0">
+                <password-list-block/>
             </b-col>
+            <b-col cols="4" class="p-0">
+                <password-block v-if="selectedPasswordOrNull != null" :password="selectedPasswordOrNull"/>
+            </b-col>
+            <b-modal v-model="passwordCreationModalVisible" title="Create password" hide-footer id="password-creation-modal">
+                <password-creation-form @create="passwordCreationModalVisible = false"/>
+            </b-modal>
         </app-layout>
     </page>
 </template>
 
 <script>
-    import Page from "@/components/Page";
-    import AppLayout from "@/components/layouts/AppLayout";
+    import Page from "@/components/Page"
+    import AppLayout from "@/components/layouts/AppLayout"
+    import PasswordListBlock from "@/pages/passwords/PasswordListBlock"
+    import PasswordCreationForm from "@/pages/passwords/PasswordCreationForm"
+    import PasswordBlock from "@/pages/passwords/PasswordBlock";
+
     export default {
         name: "PasswordsPage",
-        components: {AppLayout, Page}
+        components: {PasswordBlock, PasswordCreationForm, PasswordListBlock, AppLayout, Page},
+        props: {
+            passwordId: String
+        },
+        computed: {
+            selectedPasswordOrNull() {
+                if (this.passwordId == null)
+                    return null
+                else
+                    return this.$store.state.user.password.passwords.find(
+                        password => password.id.toString() === this.passwordId
+                    ) ?? null
+            }
+        },
+        data() {
+            return {
+                passwordCreationModalVisible: false
+            }
+        }
     }
 </script>
 
 <style lang="scss" scoped>
-    .passwords-page__header {
+    .password-creation-block {
+        height: 100%;
         display: flex;
-        flex-direction: row;
-    }
+        flex-direction: column;
 
-    .passwords-page__header__title {
-        font-size: 2rem;
-        user-select: none;
+        &.hidden {
+            display: none;
+        }
     }
 </style>
