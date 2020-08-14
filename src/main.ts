@@ -11,7 +11,7 @@ Vue.use(BootstrapVueIcons)
 
 Vue.config.productionTip = false
 
-Axios.defaults.baseURL = "https://crypta.cognio.dev/api"
+Axios.defaults.baseURL = "https://api.crypta.cognio.dev"
 Axios.defaults.validateStatus = status => status < 500
 
 const vm = new Vue({
