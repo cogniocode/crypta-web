@@ -2,16 +2,25 @@ import {DecodedPasswordDTO, PasswordCreationDTO, PasswordRetrievalDTO} from "@/t
 import Axios from "axios"
 import {ApiError, getDefaultAxiosConfig} from "@/api/util"
 
+interface CreatePasswordParameters {
+    length?: number
+    use_nums?: boolean
+    use_symb?: boolean
+}
+
 const passwordApiPath = (userId: number, passwordId?: number) =>
     passwordId ? `/users/${userId}/passwords/${passwordId}` : `/users/${userId}/passwords`
 
-export async function createPassword(userId: number, passwordDTO: PasswordCreationDTO, token: string, size?: number): Promise<PasswordRetrievalDTO> {
+export async function createPassword(
+    userId: number,
+    passwordDTO: PasswordCreationDTO,
+    token: string,
+    params?: CreatePasswordParameters
+): Promise<PasswordRetrievalDTO> {
     try {
         const result = await Axios.post(passwordApiPath(userId), passwordDTO, {
             ...getDefaultAxiosConfig({token}),
-            params: {
-                size
-            }
+            params
         })
 
         if (result.status === 201) {
