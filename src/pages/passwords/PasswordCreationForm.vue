@@ -6,15 +6,31 @@
         <b-form-group label="Name">
             <b-form-input v-model="fields.name.value"/>
         </b-form-group>
+        <b-form-group label="Username">
+            <b-form-input v-model="fields.username.value"/>
+        </b-form-group>
+        <b-form-group description="This field is optional." label="Website">
+            <b-form-input type="url" v-model="fields.website.value"/>
+        </b-form-group>
         <b-form-group label="Strategy">
             <b-form-radio-group v-model="fields.strategy.value" stacked>
                 <b-form-radio value="generate" class="mb-2">Generate password</b-form-radio>
                 <b-form-radio value="custom">Use custom value</b-form-radio>
             </b-form-radio-group>
         </b-form-group>
-        <b-form-group class="mb-0" v-if="fields.strategy.value === 'generate'" label="Generation options">
-            <b-form-group label="Size">
-                <b-form-spinbutton v-model="fields.size.value" min="8" max="32" step="2"/>
+        <b-form-group class="mb-0" v-if="fields.strategy.value === 'generate'" label-size="lg" label="Generation options">
+            <b-form-group label="Length">
+                <b-form-spinbutton v-model="fields.length.value" min="12" max="64" step="2"/>
+            </b-form-group>
+            <b-form-group>
+                <b-form-checkbox v-model="fields.useNumbers.value">
+                    Use numbers
+                </b-form-checkbox>
+            </b-form-group>
+            <b-form-group>
+                <b-form-checkbox v-model="fields.useSymbols.value">
+                    Use symbols
+                </b-form-checkbox>
             </b-form-group>
         </b-form-group>
         <b-form-group v-if="fields.strategy.value === 'custom'" label="Custom value">
@@ -49,6 +65,12 @@
                     name: {
                         value: ""
                     },
+                    username: {
+                        value: ""
+                    },
+                    website: {
+                        value: ""
+                    },
                     strategy: {
                         value: "generate"
                     },
@@ -56,8 +78,14 @@
                         value: "",
                         visible: false
                     },
-                    size: {
-                        value: 8
+                    length: {
+                        value: 12
+                    },
+                    useNumbers: {
+                        value: true
+                    },
+                    useSymbols: {
+                        value: false
                     }
                 }
             }
@@ -78,13 +106,18 @@
                 this.fields.name.value = ""
                 this.fields.strategy.value = "generate"
                 this.fields.customValue.value = ""
-                this.fields.size.value = 8
+                this.fields.length.value = 8
             },
             async handleSubmit(e) {
                 e.preventDefault()
 
                 const passwordData = {
-                    name: this.fields.name.value
+                    name: this.fields.name.value,
+                    username: this.fields.username.value
+                }
+
+                if (this.fields.website.value.trim() !== "") {
+                    passwordData.website = this.fields.website.value
                 }
 
                 if (this.fields.strategy.value === "custom") {
@@ -100,7 +133,11 @@
                         this.$store.state.user.user.id,
                         passwordData,
                         getToken(),
-                        this.fields.strategy.value === "generate" ? this.fields.size.value : null
+                        this.fields.strategy.value === "generate" ? {
+                            length: this.fields.length.value,
+                            use_nums: this.fields.useNumbers.value,
+                            use_symb: this.fields.useSymbols.value
+                        }: null
                     )
 
                     this.$store.commit(`user/password/${passwordMutationTypes.ADD_PASSWORD}`, createdPassword)
