@@ -29,8 +29,18 @@
 
 <style lang="scss">
     $primary: #2a5342;
-    $font-family-sans-serif: Inter;
+    $primary-gradient: linear-gradient(to bottom, lighten($primary, 2.5%), $primary);
+    $font-family-sans-serif: "Open Sans";
 
     @import "~bootstrap/scss/bootstrap";
     @import "~bootstrap-vue/src";
+
+    :root {
+        --primary-gradient: #{$primary-gradient};
+    }
+
+    a.disabled {
+        color: var(--gray);
+        cursor: not-allowed;
+    }
 </style>

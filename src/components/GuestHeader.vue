@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import CryptaLogo from "@/components/CryptaLogo";
+    import CryptaLogo from "@/components/brand/CryptaLogo";
     export default {
         name: "GuestHeader",
         components: {CryptaLogo}

@@ -1,8 +1,18 @@
 <template>
     <div class="guest-layout">
-        <guest-header/>
         <main>
-            <slot/>
+            <b-container>
+                <b-row class="mt-5 d-flex justify-content-center align-items-center">
+                    <b-col cols="auto">
+                        <b-link to="/">
+                            <crypta-logo white/>
+                        </b-link>
+                    </b-col>
+                </b-row>
+                <b-row class="mt-5 d-flex justify-content-center align-items-center">
+                    <slot/>
+                </b-row>
+            </b-container>
         </main>
         <guest-footer/>
     </div>
@@ -11,10 +21,11 @@
 <script>
     import GuestHeader from "@/components/GuestHeader"
     import GuestFooter from "@/components/GuestFooter"
+    import CryptaLogo from "@/components/brand/CryptaLogo";
 
     export default {
         name: "GuestLayout",
-        components: {GuestFooter, GuestHeader}
+        components: {CryptaLogo, GuestFooter, GuestHeader}
     }
 </script>
 
@@ -27,12 +38,13 @@
         align-items: center;
         justify-content: center;
         flex-flow: column nowrap;
-    }
+        background: var(--primary-gradient);
 
-    .guest-layout main {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        flex-grow: 1;
+        main {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            flex-grow: 1;
+        }
     }
 </style>

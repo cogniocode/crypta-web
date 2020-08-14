@@ -27,7 +27,7 @@
 
 <script>
     import {signOut} from "@/services/user"
-    import CryptaLogo from "@/components/CryptaLogo"
+    import CryptaLogo from "@/components/brand/CryptaLogo"
     import md5 from "md5"
 
     export default {

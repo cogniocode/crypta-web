@@ -2,17 +2,19 @@
     <footer class="guest-footer">
         <b-container>
             <b-col class="guest-footer__content" cols="12">
-                <span class="guest-footer__developed-by">
-                    Developed by <b-link href="https://github.com/cogniocode" target="_blank">@cognio</b-link>
-                </span>
+                <b-link href="https://cognio.dev" target="_blank">
+                    <cognio-emblem class="guest-footer__cognio-emblem"/>
+                </b-link>
             </b-col>
         </b-container>
     </footer>
 </template>
 
 <script>
+    import CognioEmblem from "@/components/brand/CognioEmblem";
     export default {
-        name: "GuestFooter"
+        name: "GuestFooter",
+        components: {CognioEmblem}
     }
 </script>
 
@@ -34,5 +36,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .guest-footer__cognio-emblem {
+        fill: white;
     }
 </style>
