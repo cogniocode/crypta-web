@@ -7,5 +7,5 @@ export default [
     home,
     signin,
     signup,
-    passwords
+    ...passwords
 ]
