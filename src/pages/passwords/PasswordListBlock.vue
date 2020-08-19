@@ -1,23 +1,25 @@
 <template>
     <div class="password-list-block">
         <div class="password-list-block__toolbar p-3 border-bottom border-muted">
-            <b-form inline>
-                <b-input placeholder="Search" class="flex-grow-1"/>
+            <b-form inline class="flex-nowrap">
+                <b-input v-model="fields.search.value" placeholder="Search" class="flex-grow-1"/>
                 <b-button v-b-modal="'password-creation-modal'" class="ml-3" variant="primary">
                     <b-icon icon="plus"/>
-                    Create
+                    <span class="d-none d-sm-inline">Create</span>
                 </b-button>
                 <b-dropdown right class="ml-3">
                     <template #button-content>
                         <b-icon icon="three-dots-vertical" class="mr-1"/>
                     </template>
                     <b-dropdown-form>
-
+                        <b-form-group class="mb-0" label="Order by">
+                            <b-form-radio-group v-model="fields.orderBy.value" :options="fields.orderBy.options"/>
+                        </b-form-group>
                     </b-dropdown-form>
                 </b-dropdown>
             </b-form>
         </div>
-        <div class="password-list-block__content p-3 pt-4">
+        <div class="password-list-block__content p-3">
             <p v-if="passwords.length === 0" class="password-list-block__no-passwords-text text-muted w-100">
                 You don't have any passwords.
             </p>
@@ -38,7 +40,44 @@
         components: {PasswordCard},
         computed: {
             passwords() {
-                return this.$store.state.user.password.passwords
+                let passwords = this.$store.state.user.password.passwords
+
+                const searchRegExp = new RegExp(this.fields.search.value, "i")
+
+                passwords = passwords.filter(password => searchRegExp.test(password.name))
+
+                passwords.sort((a, b) => {
+                    if (a[this.fields.orderBy.value] > b[this.fields.orderBy.value])
+                        return 1
+                    else if (a[this.fields.orderBy.value] < b[this.fields.orderBy.value])
+                        return -1
+                    else
+                        return 0
+                })
+
+                return passwords
+            }
+        },
+        data() {
+            return {
+                fields: {
+                    search: {
+                        value: ""
+                    },
+                    orderBy: {
+                        value: "username",
+                        options: [
+                            {
+                                text: "Username",
+                                value: "username"
+                            },
+                            {
+                                text: "Creation date",
+                                value: "createdAt"
+                            },
+                        ]
+                    }
+                }
             }
         }
     }
