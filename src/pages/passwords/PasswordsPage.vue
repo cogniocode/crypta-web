@@ -1,11 +1,16 @@
 <template>
     <page class="passwords-page">
         <app-layout>
-            <b-col cols="6" class="border-right border-muted p-0">
+            <b-col
+                cols="12"
+                lg="7"
+                class="password-list-col border-right border-muted p-0"
+                :class="{hide: selectedPasswordOrNull}"
+            >
                 <password-list-block/>
             </b-col>
-            <b-col cols="4" class="p-0">
-                <password-block v-if="selectedPasswordOrNull != null" :password="selectedPasswordOrNull"/>
+            <b-col cols="12" lg="5" class="p-0" v-if="selectedPasswordOrNull != null">
+                <password-block :password="selectedPasswordOrNull"/>
             </b-col>
             <b-modal v-model="passwordCreationModalVisible" title="Create password" hide-footer id="password-creation-modal">
                 <password-creation-form @create="passwordCreationModalVisible = false"/>
@@ -46,6 +51,18 @@
 </script>
 
 <style lang="scss" scoped>
+    @import "~bootstrap/scss/functions";
+    @import "~bootstrap/scss/variables";
+    @import "~bootstrap/scss/mixins";
+
+    .password-list-col {
+        @include media-breakpoint-down(md) {
+            &.hide {
+                display: none;
+            }
+        }
+    }
+
     .password-creation-block {
         height: 100%;
         display: flex;
