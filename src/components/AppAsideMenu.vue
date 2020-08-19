@@ -1,9 +1,9 @@
 <template>
-    <aside class="app-aside-menu">
+    <aside class="app-aside-menu bg-white">
         <nav class="app-aside-menu__nav">
             <ul class="app-aside-menu__nav__list">
                 <li class="app-aside-menu__nav__list__item">
-                    <b-link to="/passwords" :disabled="currentPagePath === '/passwords'" class="app-aside-menu__nav__list__item__link">
+                    <b-link to="/passwords" class="app-aside-menu__nav__list__item__link">
                         <b-icon icon="lock-fill"/>
                         Passwords
                     </b-link>
@@ -39,13 +39,13 @@
         <div class="app-aside-menu__other">
             <ul class="app-aside-menu__other__list">
                 <li class="app-aside-menu__other__list__item">
-                    <b-link to="/settings" :disabled="currentPagePath === '/settings'" class="app-aside-menu__other__list__item__link">
+                    <b-link to="/settings" title="In development." :disabled="true" class="app-aside-menu__other__list__item__link">
                         <b-icon icon="gear-fill"/>
                         Settings
                     </b-link>
                 </li>
                 <li class="app-aside-menu__other__list__item">
-                    <b-link to="/about" :disabled="currentPagePath === '/about'" class="app-aside-menu__other__list__item__link">
+                    <b-link to="/about" class="app-aside-menu__other__list__item__link">
                         <b-icon icon="info-circle-fill"/>
                         About
                     </b-link>
@@ -72,11 +72,6 @@
         data() {
             return {
                 bookmarksVisible: true
-            }
-        },
-        computed: {
-            currentPagePath() {
-                return this.$route.path
             }
         }
     }
