@@ -10,8 +10,10 @@ export default {
     [types.ADD_PASSWORD] (state, password) {
         state.passwords.push(password)
     },
-    [types.REMOVE_PASSWORD] (state, index) {
-        if (index < state.passwords.length) {
+    [types.REMOVE_PASSWORD] (state, id) {
+        const index = state.passwords.findIndex(password => password.id === id)
+
+        if (index >= 0) {
             state.passwords.splice(index, 1)
         }
     }
