@@ -1,46 +1,40 @@
 <template>
-    <b-card class="password-card">
-        <template #header>
-            <div class="d-flex w-100 flex-row justify-content-center align-items-center">
-                <b-link :to="`/passwords/${password.id}`">
-                    <h4 class="m-0">{{ password.name }}</h4>
-                </b-link>
-                <b-button @click="alert('hello')" variant="outline-secondary" class="ml-auto">
-                    <b-icon icon="bookmark-plus" class="mr-2"/>
-                    Bookmark
-                </b-button>
-                <b-dropdown variant="outline-secondary" right class="ml-3">
-                    <template #button-content>
-                        <b-icon icon="three-dots-vertical" class="mr-1"/>
-                    </template>
-                    <b-dropdown-item>
-                        Edit
-                    </b-dropdown-item>
-                    <b-dropdown-item>
-                        Delete
-                    </b-dropdown-item>
-                </b-dropdown>
+    <b-card @click="goToPasswordPage" class="password-card">
+        <div class="d-flex flex-row align-items-center">
+            <b-card-img class="mr-4" v-if="password.website" width="30" left :src="`https://www.google.com/s2/favicons?sz=32&domain_url=${password.website}`"/>
+            <div>
+                <b-card-title>
+                    {{password.name}}
+                </b-card-title>
+                <b-card-sub-title>
+                    {{password.username}}
+                </b-card-sub-title>
             </div>
-        </template>
+        </div>
         <template #footer>
-            <div class="d-flex flex-column">
-                <password-decoder :id="password.id"/>
-            </div>
+            <small class="text-muted">
+                Created on {{new Date(password.createdAt * 1000).toLocaleString("en")}}
+            </small>
         </template>
     </b-card>
 </template>
 
 <script>
-    import PasswordDecoder from "@/pages/passwords/PasswordDecoder";
     export default {
         name: "PasswordCard",
-        components: {PasswordDecoder},
         props: {
             password: Object
+        },
+        methods: {
+            goToPasswordPage() {
+                this.$router.push(`/passwords/${this.password.id}`)
+            }
         }
     }
 </script>
 
 <style lang="scss">
-
+    .password-card {
+        cursor: pointer;
+    }
 </style>
