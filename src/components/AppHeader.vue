@@ -2,6 +2,9 @@
     <header class="app-header bg-primary">
         <b-container fluid="true" class="h-100">
             <b-col cols="12" class="app-header__col h-100">
+                <b-button @click="switchMenu" size="sm" variant="light" class="app-header__menu-button d-xl-none mr-3">
+                    <b-icon icon="list"/>
+                </b-button>
                 <router-link :to="{name: 'Home'}">
                     <crypta-logo white class="app-header__logo"/>
                 </router-link>
@@ -15,10 +18,10 @@
                         </span>
                     </b-dropdown-text>
                     <b-dropdown-divider/>
-                    <b-dropdown-item to="/profile">Open profile</b-dropdown-item>
+                    <b-dropdown-item disabled to="/profile">Open profile</b-dropdown-item>
                     <b-dropdown-item-button @click="signOut" variant="danger">Sign out</b-dropdown-item-button>
                     <b-dropdown-divider/>
-                    <b-dropdown-item to="/settings">Settings</b-dropdown-item>
+                    <b-dropdown-item disabled to="/settings">Settings</b-dropdown-item>
                 </b-dropdown>
             </b-col>
         </b-container>
@@ -28,6 +31,7 @@
 <script>
     import {signOut} from "@/services/user"
     import CryptaLogo from "@/components/brand/CryptaLogo"
+    import * as menuMutationTypes from "@/store/modules/menu/mutationTypes"
     import md5 from "md5"
 
     export default {
@@ -38,6 +42,9 @@
                 signOut()
 
                 this.$router.push({name: "Home"})
+            },
+            switchMenu() {
+                this.$store.commit(`menu/${menuMutationTypes.SWITCH_MENU}`)
             }
         },
         computed: {
