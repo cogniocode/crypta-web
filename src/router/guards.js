@@ -41,7 +41,7 @@ function registerRequiresAnonymousGuard(router) {
 function registerTitleGuard(router) {
     router.beforeEach((to, from, next) => {
         if (to.meta.title) {
-            document.title = `${to.meta.title} | Crypta`
+            document.title = `${to.meta.title} - Crypta`
             next()
         } else {
             document.title = "Crypta"
