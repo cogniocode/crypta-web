@@ -44,12 +44,6 @@
                         Settings
                     </b-link>
                 </li>
-                <li class="app-aside-menu__other__list__item">
-                    <b-link to="/about" class="app-aside-menu__other__list__item__link">
-                        <b-icon icon="info-circle-fill"/>
-                        About
-                    </b-link>
-                </li>
             </ul>
         </div>
         <hr>
