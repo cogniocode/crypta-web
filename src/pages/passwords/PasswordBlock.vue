@@ -6,9 +6,13 @@
                     {{ passwordFields.name.value }}
                 </h4>
                 <b-form-input placeholder="Name" class="flex-grow-1 mr-3" v-if="mode === 'EDIT'" v-model="passwordFields.name.value"/>
-                <b-button v-if="mode === 'VIEW'" variant="outline-secondary" class="password-block__header__bookmark-button ml-auto">
+                <b-button @click="bookmarkPassword" v-if="mode === 'VIEW' && !isPasswordBookmarked" variant="outline-secondary" class="password-block__header__bookmark-button ml-auto">
                     <b-icon icon="bookmark-plus"/>
                     Bookmark
+                </b-button>
+                <b-button @click="unbookmarkPassword" v-if="mode === 'VIEW' && isPasswordBookmarked" variant="outline-danger" class="password-block__header__bookmark-button ml-auto">
+                    <b-icon icon="bookmark-dash"/>
+                    Unbookmark
                 </b-button>
                 <b-button disabled title="In development." @click="enterEditMode" v-if="mode === 'VIEW'" variant="primary" class="password-block__header__edit-button ml-3">
                     <b-icon icon="pencil"/>
@@ -84,7 +88,8 @@
 </template>
 
 <script>
-import {deletePassword, getDecodedPassword} from "@/services/password";
+    import {deletePassword, getDecodedPassword} from "@/services/password"
+    import {addBookmark, removeBookmark} from "@/services/bookmark"
 
     const PASSWORD_PLACEHOLDER = "********"
 
@@ -126,6 +131,11 @@ import {deletePassword, getDecodedPassword} from "@/services/password";
                         value: 12
                     }
                 }
+            }
+        },
+        computed: {
+            isPasswordBookmarked() {
+                return this.$store.state.bookmarks.bookmarks.find(bookmark => bookmark.id === this.password.id) != null
             }
         },
         methods: {
@@ -186,6 +196,12 @@ import {deletePassword, getDecodedPassword} from "@/services/password";
                         toaster: "b-toaster-bottom-right"
                     })
                 }
+            },
+            bookmarkPassword() {
+                addBookmark(this.password.id)
+            },
+            unbookmarkPassword() {
+                removeBookmark(this.password.id)
             }
         }
     }
