@@ -1,6 +1,6 @@
 import {DecodedPasswordDTO, PasswordCreationDTO, PasswordRetrievalDTO} from "@/types/api/password"
-import Axios from "axios"
-import {ApiError, getDefaultAxiosConfig} from "@/api/util"
+import {ApiError} from "@/api/util"
+import {ApiErrorDTO, doRequest, RequestMethod} from "@/api/client";
 
 interface CreatePasswordParameters {
     length?: number
@@ -17,74 +17,49 @@ export async function createPassword(
     token: string,
     params?: CreatePasswordParameters
 ): Promise<PasswordRetrievalDTO> {
-    try {
-        const result = await Axios.post(passwordApiPath(userId), passwordDTO, {
-            ...getDefaultAxiosConfig({token}),
-            params
-        })
+    const result = await doRequest<PasswordRetrievalDTO>(RequestMethod.POST, passwordApiPath(userId), passwordDTO, {
+        queryParameters: {
+            ...params
+        }
+    })
 
-        if (result.status === 201) {
-            return result.data
-        } else throw new ApiError(result.data.message, result.status)
-    } catch (e) {
-        if (e.isAxiosError) {
-            throw new ApiError("Server unreachable.", 500)
-        } else throw e
-    }
+    if (result.status === 201) {
+        return result.data as PasswordRetrievalDTO
+    } else
+        throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
 export async function getPasswordById(userId: number, passwordId: number, token: string): Promise<PasswordRetrievalDTO> {
-    try {
-        const result = await Axios.get(passwordApiPath(userId, passwordId), getDefaultAxiosConfig({token}))
+    const result = await doRequest<PasswordRetrievalDTO>(RequestMethod.GET, passwordApiPath(userId, passwordId))
 
-        if (result.status === 200) {
-            return result.data
-        } else throw new ApiError(result.data.message, result.status)
-    } catch (e) {
-        if (e.isAxiosError) {
-            throw new ApiError("Server unreachable.", 500)
-        } else throw e
-    }
+    if (result.status === 200) {
+        return result.data as PasswordRetrievalDTO
+    } else
+        throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
 export async function getDecodedPasswordById(userId: number, passwordId: number, token: string): Promise<DecodedPasswordDTO> {
-    try {
-        const result = await Axios.get(passwordApiPath(userId, passwordId) + ":decoded", getDefaultAxiosConfig({token}))
+    const result = await doRequest<DecodedPasswordDTO>(RequestMethod.GET, passwordApiPath(userId, passwordId) + ":decoded")
 
-        if (result.status === 200) {
-            return result.data
-        } else throw new ApiError(result.data.message, result.status)
-    } catch (e) {
-        if (e.isAxiosError) {
-            throw new ApiError("Server unreachable.", 500)
-        } else throw e
-    }
+    if (result.status === 200) {
+        return result.data as DecodedPasswordDTO
+    } else
+        throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
 export async function getUserPasswords(userId: number, token: string): Promise<Array<PasswordRetrievalDTO>> {
-    try {
-        const result = await Axios.get(passwordApiPath(userId), getDefaultAxiosConfig({token}))
+    const result = await doRequest<Array<PasswordRetrievalDTO>>(RequestMethod.GET, passwordApiPath(userId))
 
-        if (result.status === 200) {
-            return result.data
-        } else throw new ApiError(result.data.message, result.status)
-    } catch (e) {
-        if (e.isAxiosError) {
-            throw new ApiError("Server unreachable.", 500)
-        } else throw e
-    }
+    if (result.status === 200) {
+        return result.data as Array<PasswordRetrievalDTO>
+    } else
+        throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
 export async function deletePasswordById(userId: number, passwordId: number, token: string) {
-    try {
-        const result = await Axios.delete(passwordApiPath(userId, passwordId), getDefaultAxiosConfig({token}))
+    const result = await doRequest(RequestMethod.DELETE, passwordApiPath(userId, passwordId))
 
-        if (result.status !== 204) {
-            throw new ApiError(result.data.message, result.status)
-        }
-    } catch (e) {
-        if (e.isAxiosError) {
-            throw new ApiError("Server unreachable.", 500)
-        } else throw e
+    if (result.status !== 204) {
+        throw new ApiError((result.data as ApiErrorDTO).message, result.status)
     }
 }

@@ -6,11 +6,11 @@ import vm from "@/main"
 import * as userMutationTypes from "@/store/modules/user/mutationTypes"
 import * as passwordMutationTypes from "@/store/modules/user/password/mutationTypes"
 import {AuthCredentials} from "@/types/api/auth"
-import {getAuthToken} from "@/api/auth"
+import {authenticate} from "@/api/auth"
 import {getUserPasswords} from "@/api/password"
 
 export async function signIn(credentials: AuthCredentials) {
-    const token = await getAuthToken(credentials)
+    const token = await authenticate(credentials)
 
     saveToken(token)
 
