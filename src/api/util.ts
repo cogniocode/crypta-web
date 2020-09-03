@@ -1,9 +1,3 @@
-import {AxiosRequestConfig} from "axios"
-
-interface DefaultAxiosConfigOptions {
-    token: string
-}
-
 export class ApiError extends Error {
     statusCode: number
 
@@ -12,13 +6,5 @@ export class ApiError extends Error {
         this.name = "ApiError"
 
         this.statusCode = statusCode
-    }
-}
-
-export function getDefaultAxiosConfig(options: DefaultAxiosConfigOptions): AxiosRequestConfig {
-    return {
-        headers: {
-            Authorization: `Bearer ${options.token}`
-        }
     }
 }
