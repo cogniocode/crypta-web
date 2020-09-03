@@ -7,6 +7,7 @@
 <script>
     import {isTokenPresent} from "@/services/token"
     import {populateAuthUser, signOut} from "@/services/user"
+    import {syncBookmarksToStore} from "@/services/bookmark"
 
     export default {
         methods: {
@@ -14,6 +15,7 @@
                 if (isTokenPresent()) {
                     try {
                         await populateAuthUser()
+                        syncBookmarksToStore()
                     } catch (e) {
                         signOut()
                         await this.$router.push({name: "Home"})
