@@ -5,7 +5,7 @@ import {ApiErrorDTO, doRequest, RequestMethod} from "@/api/client"
 const userApiPath = (usernameOrId?: string | number) => usernameOrId ? `/users/${usernameOrId}` : '/users'
 
 export async function createUser(userDTO: UserCreationDTO): Promise<UserRetrievalDTO> {
-    const result = await doRequest<UserRetrievalDTO>(RequestMethod.POST, userApiPath(), userDTO)
+    const result = await doRequest<UserRetrievalDTO>(RequestMethod.POST, userApiPath(), userDTO, undefined, false)
 
     if (result.status === 201) {
         return result.data as UserRetrievalDTO
