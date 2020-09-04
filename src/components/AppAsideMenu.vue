@@ -33,8 +33,8 @@
                 <p v-if="bookmarkedPasswords.length === 0" class="app-aside-menu__bookmarks__empty-text text-muted mt-3">
                     You don't have any bookmarks.
                 </p>
-                <b-list-group class="mt-3" flush v-else>
-                    <b-list-group-item class="d-flex flex-row align-items-center pl-1 pr-1 border-0" :to="`/passwords/${password.id}`" v-for="password in bookmarkedPasswords">
+                <b-list-group class="app-aside-menu__bookmarks__list  mt-3" flush v-else>
+                    <b-list-group-item class="app-aside-menu__bookmarks__list__item d-flex flex-row align-items-center pl-1 pr-1 border-0" :to="`/passwords/${password.id}`" v-for="password in bookmarkedPasswords">
                         <img class="mr-3" :src="`https://www.google.com/s2/favicons?sz=32&domain_url=${password.website}`" width="20" alt="">
                         {{password.name}}
                     </b-list-group-item>
