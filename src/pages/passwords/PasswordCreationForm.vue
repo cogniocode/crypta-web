@@ -19,18 +19,9 @@
             </b-form-radio-group>
         </b-form-group>
         <b-form-group class="mb-0" v-if="fields.strategy.value === 'generate'" label-size="lg" label="Generation options">
-            <b-form-group label="Length">
-                <b-form-spinbutton v-model="fields.length.value" min="12" max="64" step="2"/>
-            </b-form-group>
-            <b-form-group>
-                <b-form-checkbox v-model="fields.useNumbers.value">
-                    Use numbers
-                </b-form-checkbox>
-            </b-form-group>
-            <b-form-group>
-                <b-form-checkbox v-model="fields.useSymbols.value">
-                    Use symbols
-                </b-form-checkbox>
+            <password-generation-form @generate="fields.generatedValue.value = $event" class="mb-3"/>
+            <b-form-group label="Generated password">
+                <b-form-input readonly v-model="fields.generatedValue.value"/>
             </b-form-group>
         </b-form-group>
         <b-form-group v-if="fields.strategy.value === 'custom'" label="Custom value">
@@ -54,9 +45,11 @@
     import {getToken} from "@/services/token"
     import * as passwordMutationTypes from "@/store/modules/user/password/mutationTypes"
     import {ApiError} from "@/api/util"
+    import PasswordGenerationForm from "@/pages/passwords/PasswordGenerationForm";
 
     export default {
         name: "PasswordCreationForm",
+        components: {PasswordGenerationForm},
         data() {
             return {
                 loading: false,
@@ -78,14 +71,8 @@
                         value: "",
                         visible: false
                     },
-                    length: {
-                        value: 12
-                    },
-                    useNumbers: {
-                        value: true
-                    },
-                    useSymbols: {
-                        value: false
+                    generatedValue: {
+                        value: ""
                     }
                 }
             }
@@ -106,7 +93,8 @@
                 this.fields.name.value = ""
                 this.fields.strategy.value = "generate"
                 this.fields.customValue.value = ""
-                this.fields.length.value = 8
+                this.fields.generatedValue.value = ""
+                this.fields.length.value = 12
             },
             async handleSubmit(e) {
                 e.preventDefault()
@@ -122,6 +110,8 @@
 
                 if (this.fields.strategy.value === "custom") {
                     passwordData.value = this.fields.customValue.value
+                } else if (this.fields.strategy.value === "generate") {
+                    passwordData.value = this.fields.generatedValue.value
                 }
 
                 this.error = null
@@ -131,13 +121,7 @@
                 try {
                     const createdPassword = await createPassword(
                         this.$store.state.user.user.id,
-                        passwordData,
-                        getToken(),
-                        this.fields.strategy.value === "generate" ? {
-                            length: this.fields.length.value,
-                            use_nums: this.fields.useNumbers.value,
-                            use_symb: this.fields.useSymbols.value
-                        }: null
+                        passwordData
                     )
 
                     this.$store.commit(`user/password/${passwordMutationTypes.ADD_PASSWORD}`, createdPassword)
@@ -145,8 +129,6 @@
                     this.loading = false
 
                     this.showSuccessToast()
-
-                    this.clearForm()
 
                     this.$emit("create", createdPassword)
                 } catch (e) {
