@@ -14,7 +14,7 @@
                     <b-icon icon="bookmark-dash"/>
                     Unbookmark
                 </b-button>
-                <b-button disabled title="In development." @click="enterEditMode" v-if="mode === 'VIEW'" variant="primary" class="password-block__header__edit-button ml-3">
+                <b-button @click="enterEditMode" v-if="mode === 'VIEW'" variant="primary" class="password-block__header__edit-button ml-3">
                     <b-icon icon="pencil"/>
                     Edit
                 </b-button>
@@ -61,11 +61,7 @@
                                     <b-icon icon="arrow-clockwise" class="mr-1"/>
                                     Generate
                                 </template>
-                                <b-dropdown-form>
-                                    <b-form-group class="mb-0" label="Length">
-                                        <b-form-spinbutton v-model="generationFields.length.value" min="12" max="64"/>
-                                    </b-form-group>
-                                </b-dropdown-form>
+                                <password-generation-form ref="generationForm" @generate="passwordFields.password.value = $event" dropdown-form no-button/>
                             </b-dropdown>
                         </b-input-group-append>
                     </b-input-group>
@@ -80,7 +76,7 @@
             <b-button disabled title="In development." v-if="mode === 'VIEW'" block variant="primary" class="mb-3">
                 Show password history
             </b-button>
-            <b-button @click="deletePassword" block variant="outline-danger">
+            <b-button v-if="mode === 'VIEW'" @click="deletePassword" block variant="outline-danger">
                 Delete
             </b-button>
         </div>
@@ -90,11 +86,13 @@
 <script>
     import {deletePassword, getDecodedPassword} from "@/services/password"
     import {addBookmark, removeBookmark} from "@/services/bookmark"
+    import PasswordGenerationForm from "@/pages/passwords/PasswordGenerationForm";
 
     const PASSWORD_PLACEHOLDER = "********"
 
     export default {
         name: "PasswordBlock",
+        components: {PasswordGenerationForm},
         props: {
             password: {
                 type: Object,
@@ -125,11 +123,6 @@
                     website: {
                         value: this.password.website ?? ""
                     }
-                },
-                generationFields: {
-                    length: {
-                        value: 12
-                    }
                 }
             }
         },
@@ -156,7 +149,7 @@
                 //TODO
             },
             generateNewPassword() {
-                //TODO
+                this.$refs.generationForm.generatePassword()
             },
             async showDecodedPassword() {
                 const decodedPassword = await getDecodedPassword(this.password.id)
