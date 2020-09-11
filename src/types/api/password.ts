@@ -1,6 +1,6 @@
 interface PasswordCreationDTO {
     name: string
-    value?: string
+    value: string
     username: string
     website?: string
 }
@@ -18,8 +18,29 @@ interface DecodedPasswordDTO {
     decodedValue: string
 }
 
+interface PasswordGenerationDTO {
+    type: string
+    length: number
+    useSymbols?: boolean
+    useNumbers?: boolean
+}
+
+interface GeneratedPasswordDTO {
+    value: string
+}
+
+interface PasswordUpdateDTO {
+    name?: string
+    value?: string
+    username?: string
+    website?: string
+}
+
 export type {
     PasswordCreationDTO,
     PasswordRetrievalDTO,
-    DecodedPasswordDTO
+    DecodedPasswordDTO,
+    PasswordGenerationDTO,
+    GeneratedPasswordDTO,
+    PasswordUpdateDTO
 }

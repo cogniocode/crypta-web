@@ -16,5 +16,14 @@ export default {
         if (index >= 0) {
             state.passwords.splice(index, 1)
         }
+    },
+    [types.UPDATE_PASSWORD] (state, {id, data}) {
+        const passwordIndex = state.passwords.findIndex(password => password.id === id)
+
+        if (passwordIndex >= 0) {
+            Object.keys(data).forEach(key => {
+                state.passwords[passwordIndex][key] = data[key]
+            })
+        }
     }
 }
