@@ -41,11 +41,9 @@
 </template>
 
 <script>
-    import {createPassword} from "@/api/password"
-    import {getToken} from "@/services/token"
-    import * as passwordMutationTypes from "@/store/modules/user/password/mutationTypes"
     import {ApiError} from "@/api/util"
-    import PasswordGenerationForm from "@/pages/passwords/PasswordGenerationForm";
+    import PasswordGenerationForm from "@/pages/passwords/PasswordGenerationForm"
+    import {createPassword} from "@/services/password";
 
     export default {
         name: "PasswordCreationForm",
@@ -119,12 +117,7 @@
                 this.buttonDisabled = false
 
                 try {
-                    const createdPassword = await createPassword(
-                        this.$store.state.user.user.id,
-                        passwordData
-                    )
-
-                    this.$store.commit(`user/password/${passwordMutationTypes.ADD_PASSWORD}`, createdPassword)
+                    const createdPassword = await createPassword(passwordData)
 
                     this.loading = false
 
