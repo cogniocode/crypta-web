@@ -1,35 +1,35 @@
 <template>
     <div class="password-block">
         <div class="password-block__header p-3 border-bottom border-muted">
-            <b-form class="w-100" inline>
+            <b-form @keyup.esc="discardChanges" @submit="saveChanges" class="w-100 d-flex flex-row flex-nowrap" inline>
                 <h4 v-if="mode === 'VIEW'" class="password-block__header__name m-0">
                     {{ passwordFields.name.value }}
                 </h4>
                 <b-form-input placeholder="Name" class="flex-grow-1 mr-3" v-if="mode === 'EDIT'" v-model="passwordFields.name.value"/>
                 <b-button @click="bookmarkPassword" v-if="mode === 'VIEW' && !isPasswordBookmarked" variant="outline-secondary" class="password-block__header__bookmark-button ml-auto">
                     <b-icon icon="bookmark-plus"/>
-                    Bookmark
+                    <span class="d-none d-md-inline">Bookmark</span>
                 </b-button>
                 <b-button @click="unbookmarkPassword" v-if="mode === 'VIEW' && isPasswordBookmarked" variant="outline-danger" class="password-block__header__bookmark-button ml-auto">
                     <b-icon icon="bookmark-dash"/>
-                    Unbookmark
+                    <span class="d-none d-md-inline">Unbookmark</span>
                 </b-button>
                 <b-button @click="enterEditMode" v-if="mode === 'VIEW'" variant="primary" class="password-block__header__edit-button ml-3">
                     <b-icon icon="pencil"/>
-                    Edit
+                    <span class="d-none d-md-inline">Edit</span>
                 </b-button>
                 <b-button @click="discardChanges" v-if="mode === 'EDIT'" variant="danger" class="password-block__header__edit-button ml-auto">
                     <b-icon icon="x"/>
-                    Cancel
+                    <span class="d-none d-md-inline">Cancel</span>
                 </b-button>
-                <b-button @click="saveChanges" v-if="mode === 'EDIT'" variant="success" class="password-block__header__edit-button ml-3">
+                <b-button type="submit" v-if="mode === 'EDIT'" variant="success" class="password-block__header__edit-button ml-3">
                     <b-icon icon="check2"/>
-                    Save
+                    <span class="d-none d-md-inline">Save</span>
                 </b-button>
             </b-form>
         </div>
         <div class="password-block__content p-3">
-            <b-form>
+            <b-form @keyup.esc="discardChanges" @submit="saveChanges">
                 <b-alert :show="error != null" variant="danger" class="mb-3">
                     {{ error }}
                 </b-alert>
@@ -72,6 +72,7 @@
                     </b-link>
                     <b-form-input v-if="mode === 'EDIT'" v-model="passwordFields.website.value"/>
                 </b-form-group>
+                <b-button type="submit" aria-hidden="true" style="display: none"/>
             </b-form>
             <b-button disabled title="In development." v-if="mode === 'VIEW'" block variant="primary" class="mb-3">
                 Show password history
@@ -84,9 +85,10 @@
 </template>
 
 <script>
-    import {deletePassword, getDecodedPassword} from "@/services/password"
+import {deletePassword, getDecodedPassword, updatePassword} from "@/services/password"
     import {addBookmark, removeBookmark} from "@/services/bookmark"
     import PasswordGenerationForm from "@/pages/passwords/PasswordGenerationForm";
+import {ApiError} from "@/api/util";
 
     const PASSWORD_PLACEHOLDER = "********"
 
@@ -143,10 +145,29 @@
             },
             exitEditMode() {
                 this.hideDecodedPassword()
+                this.error = null
                 this.setMode("VIEW")
             },
-            saveChanges() {
-                //TODO
+            async saveChanges(e) {
+                if (e)
+                    e.preventDefault()
+
+                const updateData = {
+                    name: this.passwordFields.name.value,
+                    username: this.passwordFields.username.value,
+                    value: this.passwordFields.password.value,
+                    website: this.passwordFields.website.value
+                }
+
+                try {
+                    await updatePassword(this.password.id, updateData)
+
+                    this.exitEditMode()
+                } catch (e) {
+                    if (e instanceof ApiError) {
+                        this.error = e.message
+                    }
+                }
             },
             generateNewPassword() {
                 this.$refs.generationForm.generatePassword()
