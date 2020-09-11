@@ -44,7 +44,7 @@ export async function getUserPasswords(userId: number, token: string): Promise<A
         throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
-export async function updatePassword(userId: number, passwordId: number, passwordUpdateDTO: PasswordUpdateDTO) {
+export async function updatePasswordById(userId: number, passwordId: number, passwordUpdateDTO: PasswordUpdateDTO) {
     const result = await doRequest(RequestMethod.PATCH, passwordApiPath(userId, passwordId), passwordUpdateDTO)
 
     if (result.status !== 200) {
