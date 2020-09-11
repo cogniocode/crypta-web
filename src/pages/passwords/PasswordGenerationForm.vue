@@ -6,7 +6,7 @@
         <b-form-group label="Type">
             <b-form-select v-model="fields.type.value" :options="fields.type.options"/>
         </b-form-group>
-        <b-form-group class="mb-0" v-if="fields.type.value === 'traditional'">
+        <b-form-group class="mb-0" v-if="fields.type.value === 'TRADITIONAL'">
             <b-form-group>
                 <b-form-checkbox v-model="fields.useNumbers.value">
                     Use numbers
@@ -40,10 +40,10 @@
                         value: 12
                     },
                     type: {
-                        value: "traditional",
+                        value: "TRADITIONAL",
                         options: [
                             {
-                                value: "traditional",
+                                value: "TRADITIONAL",
                                 text: "Traditional"
                             },
                             {
@@ -71,7 +71,7 @@
                     length: this.fields.length.value
                 }
 
-                if (this.fields.type.value === 'traditional') {
+                if (this.fields.type.value === 'TRADITIONAL') {
                     generationData.useNumbers = this.fields.useNumbers.value
                     generationData.useSymbols = this.fields.useSymbols.value
                 }
