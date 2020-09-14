@@ -8,6 +8,7 @@
     import {isTokenPresent} from "@/services/token"
     import {populateAuthUser, signOut} from "@/services/user"
     import {syncBookmarksToStore} from "@/services/bookmark"
+    import {ApiError} from "@/api/util"
 
     export default {
         methods: {
@@ -17,8 +18,18 @@
                         await populateAuthUser()
                         syncBookmarksToStore()
                     } catch (e) {
-                        signOut()
-                        await this.$router.push({name: "Home"})
+                        if (!(e instanceof ApiError && e.statusCode >= 500)) {
+                            signOut()
+                            await this.$router.push({name: "Home"})
+                        } else {
+                            this.$bvToast.toast("Server not available. Please try again later...", {
+                                title: "Server error",
+                                variant: "danger",
+                                solid: true,
+                                toaster: "b-toaster-bottom-right",
+                                autoHideDelay: 7000
+                            })
+                        }
                     }
                 }
             }
