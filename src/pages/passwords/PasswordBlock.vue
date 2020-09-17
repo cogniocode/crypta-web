@@ -8,28 +8,28 @@
                 <b-form-input placeholder="Name" class="flex-grow-1 mr-3" v-if="mode === 'EDIT'" v-model="passwordFields.name.value"/>
                 <b-button @click="bookmarkPassword" v-if="mode === 'VIEW' && !isPasswordBookmarked" variant="outline-secondary" class="password-block__header__bookmark-button ml-auto">
                     <b-icon icon="bookmark-plus"/>
-                    <span class="d-none d-md-inline">Bookmark</span>
+                    <span class="ml-1 d-none d-md-inline">Bookmark</span>
                 </b-button>
                 <b-button @click="unbookmarkPassword" v-if="mode === 'VIEW' && isPasswordBookmarked" variant="outline-danger" class="password-block__header__bookmark-button ml-auto">
                     <b-icon icon="bookmark-dash"/>
-                    <span class="d-none d-md-inline">Unbookmark</span>
+                    <span class="ml-1 d-none d-md-inline">Unbookmark</span>
                 </b-button>
                 <b-button @click="enterEditMode" v-if="mode === 'VIEW'" variant="primary" class="password-block__header__edit-button ml-3">
                     <b-icon icon="pencil"/>
-                    <span class="d-none d-md-inline">Edit</span>
+                    <span class="ml-1 d-none d-md-inline">Edit</span>
                 </b-button>
                 <b-button @click="discardChanges" v-if="mode === 'EDIT'" variant="danger" class="password-block__header__edit-button ml-auto">
                     <b-icon icon="x"/>
-                    <span class="d-none d-md-inline">Cancel</span>
+                    <span class="ml-1 d-none d-md-inline">Cancel</span>
                 </b-button>
-                <b-button type="submit" v-if="mode === 'EDIT'" variant="success" class="password-block__header__edit-button ml-3">
+                <b-button @click="saveChanges" v-if="mode === 'EDIT'" variant="success" class="password-block__header__edit-button ml-3">
                     <b-icon icon="check2"/>
-                    <span class="d-none d-md-inline">Save</span>
+                    <span class="ml-1 d-none d-md-inline">Save</span>
                 </b-button>
             </b-form>
         </div>
         <div class="password-block__content p-3">
-            <b-form @keyup.esc="discardChanges" @submit="saveChanges">
+            <b-form @keyup.esc="discardChanges" @keyup.enter="saveChanges">
                 <b-alert :show="error != null" variant="danger" class="mb-3">
                     {{ error }}
                 </b-alert>
@@ -41,7 +41,7 @@
                         <b-form-input
                             v-model="passwordFields.password.value"
                             :type="decodedPasswordVisible ? 'text' : 'password'"
-                            :readonly="mode === 'VIEW'"
+                            :readonly="mode === 'VIEW' || (mode === 'EDIT' && !decodedPasswordVisible)"
                         />
                         <b-input-group-append v-if="!decodedPasswordVisible && mode === 'VIEW'">
                             <b-button @click="showDecodedPassword">
@@ -72,7 +72,6 @@
                     </b-link>
                     <b-form-input v-if="mode === 'EDIT'" v-model="passwordFields.website.value"/>
                 </b-form-group>
-                <b-button type="submit" aria-hidden="true" style="display: none"/>
             </b-form>
             <b-button disabled title="In development." v-if="mode === 'VIEW'" block variant="primary" class="mb-3">
                 Show password history
@@ -137,9 +136,9 @@ import {ApiError} from "@/api/util";
             setMode(mode) {
                 this.mode = mode
             },
-            async enterEditMode() {
+            enterEditMode() {
                 if (!this.decodedPasswordVisible) {
-                    await this.showDecodedPassword()
+                    this.showDecodedPassword()
                 }
                 this.setMode("EDIT")
             },
