@@ -17,7 +17,7 @@ export async function createPassword(
         throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
-export async function getPasswordById(userId: number, passwordId: number, token: string): Promise<PasswordRetrievalDTO> {
+export async function getPasswordById(userId: number, passwordId: number): Promise<PasswordRetrievalDTO> {
     const result = await doRequest<PasswordRetrievalDTO>(RequestMethod.GET, passwordApiPath(userId, passwordId))
 
     if (result.status === 200) {
@@ -26,7 +26,7 @@ export async function getPasswordById(userId: number, passwordId: number, token:
         throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
-export async function getDecodedPasswordById(userId: number, passwordId: number, token: string): Promise<DecodedPasswordDTO> {
+export async function getDecodedPasswordById(userId: number, passwordId: number): Promise<DecodedPasswordDTO> {
     const result = await doRequest<DecodedPasswordDTO>(RequestMethod.GET, passwordApiPath(userId, passwordId) + ":decoded")
 
     if (result.status === 200) {
@@ -35,7 +35,7 @@ export async function getDecodedPasswordById(userId: number, passwordId: number,
         throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
-export async function getUserPasswords(userId: number, token: string): Promise<Array<PasswordRetrievalDTO>> {
+export async function getUserPasswords(userId: number): Promise<Array<PasswordRetrievalDTO>> {
     const result = await doRequest<Array<PasswordRetrievalDTO>>(RequestMethod.GET, passwordApiPath(userId))
 
     if (result.status === 200) {
@@ -52,7 +52,7 @@ export async function updatePasswordById(userId: number, passwordId: number, pas
     }
 }
 
-export async function deletePasswordById(userId: number, passwordId: number, token: string) {
+export async function deletePasswordById(userId: number, passwordId: number) {
     const result = await doRequest(RequestMethod.DELETE, passwordApiPath(userId, passwordId))
 
     if (result.status !== 204) {

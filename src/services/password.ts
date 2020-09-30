@@ -23,7 +23,7 @@ export async function getDecodedPassword(passwordId: number): Promise<string> {
     const authToken = getToken()
 
     if (authToken != null && userId != null) {
-        const decodedPassword = await getDecodedPasswordById(userId, passwordId, authToken)
+        const decodedPassword = await getDecodedPasswordById(userId, passwordId)
 
         return decodedPassword.decodedValue
     } else throw new ServiceError("Auth token is not present or user is null.")
@@ -50,7 +50,7 @@ export async function deletePassword(passwordId: number) {
     const authToken = getToken()
 
     if (authToken != null && userId != null && password != null) {
-        await deletePasswordById(userId, passwordId, authToken)
+        await deletePasswordById(userId, passwordId)
 
         vm.$store.commit(`user/password/${passwordMutationTypes.REMOVE_PASSWORD}`, passwordId)
     }

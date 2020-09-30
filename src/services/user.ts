@@ -40,7 +40,7 @@ export async function populateAuthUser() {
         const authUser = await getAuthUser()
         vm.$store.commit(`user/${userMutationTypes.SET_USER}`, authUser)
 
-        const authUserPasswords = await getUserPasswords(authUser.id, authToken)
+        const authUserPasswords = await getUserPasswords(authUser.id)
         vm.$store.commit(`user/password/${passwordMutationTypes.SET_PASSWORDS}`, authUserPasswords)
     }
 }
@@ -52,5 +52,5 @@ export async function getAuthUser(): Promise<UserRetrievalDTO> {
     if (authToken == null)
         throw new ServiceError("Auth token is not present.")
 
-    return getUserByUsername(authUsername, authToken)
+    return getUserByUsername(authUsername)
 }

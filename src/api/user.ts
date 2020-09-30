@@ -13,7 +13,7 @@ export async function createUser(userDTO: UserCreationDTO): Promise<UserRetrieva
         throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
-export async function getUserByUsername(username: string, token: string): Promise<UserRetrievalDTO> {
+export async function getUserByUsername(username: string): Promise<UserRetrievalDTO> {
     const result = await doRequest<UserRetrievalDTO>(RequestMethod.GET, userApiPath(username))
 
     if (result.status === 200) {
@@ -22,7 +22,7 @@ export async function getUserByUsername(username: string, token: string): Promis
         throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
-export async function getUserById(id: number, token: string): Promise<UserRetrievalDTO> {
+export async function getUserById(id: number): Promise<UserRetrievalDTO> {
     const result = await doRequest<UserRetrievalDTO>(RequestMethod.GET, userApiPath(id))
 
     if (result.status === 200) {
@@ -30,7 +30,7 @@ export async function getUserById(id: number, token: string): Promise<UserRetrie
     } else throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
-export async function deleteUserById(id: number, token: string) {
+export async function deleteUserById(id: number) {
     const result = await doRequest(RequestMethod.DELETE, userApiPath(id))
 
     if (result.status !== 204) {
