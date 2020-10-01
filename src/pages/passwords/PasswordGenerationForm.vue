@@ -68,12 +68,13 @@
 
                 const generationData = {
                     type: this.fields.type.value,
-                    length: this.fields.length.value
+                    length: this.fields.length.value,
+                    options: {}
                 }
 
                 if (this.fields.type.value === 'TRADITIONAL') {
-                    generationData.useNumbers = this.fields.useNumbers.value
-                    generationData.useSymbols = this.fields.useSymbols.value
+                    generationData.options.useNumbers = this.fields.useNumbers.value
+                    generationData.options.useSymbols = this.fields.useSymbols.value
                 }
 
                 try {

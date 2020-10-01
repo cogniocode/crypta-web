@@ -13,7 +13,7 @@ interface PasswordRetrievalDTO {
     createdAt: number
 }
 
-interface DecodedPasswordDTO {
+interface DecryptedPasswordDTO {
     id: number
     decodedValue: string
 }
@@ -21,8 +21,7 @@ interface DecodedPasswordDTO {
 interface PasswordGenerationDTO {
     type: string
     length: number
-    useSymbols?: boolean
-    useNumbers?: boolean
+    options: any
 }
 
 interface GeneratedPasswordDTO {
@@ -39,7 +38,7 @@ interface PasswordUpdateDTO {
 export type {
     PasswordCreationDTO,
     PasswordRetrievalDTO,
-    DecodedPasswordDTO,
+    DecryptedPasswordDTO,
     PasswordGenerationDTO,
     GeneratedPasswordDTO,
     PasswordUpdateDTO

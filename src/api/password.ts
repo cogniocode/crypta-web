@@ -1,4 +1,4 @@
-import {DecodedPasswordDTO, PasswordCreationDTO, PasswordRetrievalDTO, PasswordUpdateDTO} from "@/types/api/password"
+import {DecryptedPasswordDTO, PasswordCreationDTO, PasswordRetrievalDTO, PasswordUpdateDTO} from "@/types/api/password"
 import {ApiError} from "@/api/util"
 import {ApiErrorDTO, doRequest, RequestMethod} from "@/api/client"
 
@@ -26,11 +26,11 @@ export async function getPasswordById(userId: number, passwordId: number): Promi
         throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
 
-export async function getDecodedPasswordById(userId: number, passwordId: number): Promise<DecodedPasswordDTO> {
-    const result = await doRequest<DecodedPasswordDTO>(RequestMethod.GET, passwordApiPath(userId, passwordId) + ":decoded")
+export async function getDecryptedPasswordById(userId: number, passwordId: number): Promise<DecryptedPasswordDTO> {
+    const result = await doRequest<DecryptedPasswordDTO>(RequestMethod.GET, passwordApiPath(userId, passwordId) + ":decrypted")
 
     if (result.status === 200) {
-        return result.data as DecodedPasswordDTO
+        return result.data as DecryptedPasswordDTO
     } else
         throw new ApiError((result.data as ApiErrorDTO).message, result.status)
 }
