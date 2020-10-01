@@ -1,7 +1,7 @@
 <template>
     <page class="generator-page">
         <app-layout>
-            <b-col cols="5" class="password-generation-block pl-4 pt-3">
+            <b-col cols="5" class="password-generation-block p-3">
                 <b-form-input class="text-center" v-model="generatedPassword.value" readonly size="lg"/>
                 <password-generation-form class="mt-3" @generate="setGeneratedPassword($event)"/>
             </b-col>
