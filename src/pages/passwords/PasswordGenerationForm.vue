@@ -82,7 +82,12 @@
 
                     this.$emit("generate", generatedPassword.value)
                 } catch (e) {
-
+                    this.$bvToast.toast("Couldn't generate password.", {
+                        title: "Error",
+                        variant: "danger",
+                        solid: "true",
+                        toaster: "b-toaster-bottom-right"
+                    })
                 }
             }
         }
