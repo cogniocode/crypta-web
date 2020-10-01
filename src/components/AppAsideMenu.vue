@@ -3,19 +3,19 @@
         <nav class="app-aside-menu__nav">
             <ul class="app-aside-menu__nav__list">
                 <li class="app-aside-menu__nav__list__item">
-                    <b-link to="/passwords" class="app-aside-menu__nav__list__item__link">
+                    <b-link @click="closeMenu" to="/passwords" class="app-aside-menu__nav__list__item__link">
                         <b-icon icon="lock-fill"/>
                         Passwords
                     </b-link>
                 </li>
                 <li class="app-aside-menu__nav__list__item">
-                    <b-link to="/encryptor" class="app-aside-menu__nav__list__item__link">
+                    <b-link @click="closeMenu" to="/encryptor" class="app-aside-menu__nav__list__item__link">
                         <b-icon icon="file-binary-fill"/>
                         Encryptor
                     </b-link>
                 </li>
                 <li class="app-aside-menu__nav__list__item">
-                    <b-link title="In development." to="/generator" class="app-aside-menu__nav__list__item__link">
+                    <b-link @click="closeMenu" to="/generator" class="app-aside-menu__nav__list__item__link">
                         <b-icon icon="file-text-fill"/>
                         Generator
                     </b-link>
@@ -67,6 +67,8 @@
 </template>
 
 <script>
+    import * as menuMutationTypes from "@/store/modules/menu/mutationTypes"
+
     export default {
         name: "AppAsideMenu",
         data() {
@@ -86,6 +88,11 @@
                 })
 
                 return passwords
+            }
+        },
+        methods: {
+            closeMenu() {
+                this.$store.commit(`menu/${menuMutationTypes.SET_MENU}`, false)
             }
         }
     }
