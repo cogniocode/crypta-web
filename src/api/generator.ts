@@ -5,7 +5,7 @@ import {ApiError} from "@/api/util";
 const GENERATOR_API_PATH = "/generator"
 
 export async function generatePassword(generationDTO: PasswordGenerationDTO): Promise<GeneratedPasswordDTO> {
-    const result = await doRequest<GeneratedPasswordDTO>(RequestMethod.POST, GENERATOR_API_PATH + "/password", generationDTO)
+    const result = await doRequest<GeneratedPasswordDTO>(RequestMethod.POST, GENERATOR_API_PATH + "/password", generationDTO, undefined, false)
 
     if (result.status === 200) {
         return result.data as GeneratedPasswordDTO

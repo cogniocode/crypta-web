@@ -35,6 +35,12 @@
                     <b-button @click="switchPasswordField">
                         <b-icon :icon="fields.password.visible ? 'eye-slash-fill' : 'eye-fill'"></b-icon>
                     </b-button>
+                    <b-dropdown @click="$refs.generationForm.generatePassword()" right split>
+                        <template #button-content>
+                            <b-icon icon="arrow-clockwise" class="mr-1"/>
+                        </template>
+                        <password-generation-form ref="generationForm" @generate="fields.password.value = $event" dropdown-form no-button/>
+                    </b-dropdown>
                 </template>
             </b-input-group>
         </b-form-group>
@@ -47,9 +53,11 @@
 <script>
     import { signUp } from "@/services/user"
     import { ApiError } from "@/api/util"
+    import PasswordGenerationForm from "@/pages/passwords/PasswordGenerationForm"
 
     export default {
         name: "SignUpForm",
+        components: {PasswordGenerationForm},
         data() {
             return {
                 loading: false,
