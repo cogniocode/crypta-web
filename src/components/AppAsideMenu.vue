@@ -15,7 +15,7 @@
                     </b-link>
                 </li>
                 <li class="app-aside-menu__nav__list__item">
-                    <b-link title="In development." to="/generator" :disabled="true" class="app-aside-menu__nav__list__item__link">
+                    <b-link title="In development." to="/generator" class="app-aside-menu__nav__list__item__link">
                         <b-icon icon="file-text-fill"/>
                         Generator
                     </b-link>
