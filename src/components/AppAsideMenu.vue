@@ -9,7 +9,7 @@
                     </b-link>
                 </li>
                 <li class="app-aside-menu__nav__list__item">
-                    <b-link title="In development." to="/encryptor" :disabled="true" class="app-aside-menu__nav__list__item__link">
+                    <b-link to="/encryptor" class="app-aside-menu__nav__list__item__link">
                         <b-icon icon="file-binary-fill"/>
                         Encryptor
                     </b-link>
