@@ -4,6 +4,7 @@ import signup from "./signup"
 import passwords from "./passwords"
 import encryptor from "./encryptor"
 import generator from "./generator"
+import settings from "./settings"
 
 export default [
     home,
@@ -11,5 +12,6 @@ export default [
     signup,
     ...passwords,
     encryptor,
-    generator
+    generator,
+    settings
 ]
