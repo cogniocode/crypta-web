@@ -45,7 +45,7 @@
         <div class="app-aside-menu__other">
             <ul class="app-aside-menu__other__list">
                 <li class="app-aside-menu__other__list__item">
-                    <b-link to="/settings" title="In development." :disabled="true" class="app-aside-menu__other__list__item__link">
+                    <b-link to="/settings" class="app-aside-menu__other__list__item__link">
                         <b-icon icon="gear-fill"/>
                         Settings
                     </b-link>
