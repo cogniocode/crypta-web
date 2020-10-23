@@ -6,7 +6,9 @@
                     <b-tab title="Text">
                         <text-crypto-form/>
                     </b-tab>
-                    <b-tab title="Files">In development.</b-tab>
+                    <b-tab title="Files">
+                        <file-crypto-form/>
+                    </b-tab>
                 </b-tabs>
             </b-card>
         </app-layout>
@@ -17,10 +19,11 @@
     import Page from "@/components/Page"
     import AppLayout from "@/components/layouts/AppLayout"
     import TextCryptoForm from "@/pages/encryptor/TextCryptoForm"
+    import FileCryptoForm from "@/pages/encryptor/FileCryptoForm"
 
     export default {
         name: "EncryptorPage",
-        components: {TextCryptoForm, AppLayout, Page}
+        components: {FileCryptoForm, TextCryptoForm, AppLayout, Page}
     }
 </script>
 
