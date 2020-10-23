@@ -25,7 +25,7 @@ export async function getDecodedPassword(passwordId: number): Promise<string> {
     if (authToken != null && userId != null) {
         const decryptedPassword = await getDecryptedPasswordById(userId, passwordId)
 
-        return decryptedPassword.decodedValue
+        return decryptedPassword.decryptedValue as string
     } else throw new ServiceError("Auth token is not present or user is null.")
 }
 
