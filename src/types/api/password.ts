@@ -10,12 +10,9 @@ interface PasswordRetrievalDTO {
     name: string
     username: string
     website?: string
+    decryptedValue?: string
+    isMasterPassword: boolean
     createdAt: number
-}
-
-interface DecryptedPasswordDTO {
-    id: number
-    decodedValue: string
 }
 
 interface PasswordGenerationDTO {
@@ -38,7 +35,6 @@ interface PasswordUpdateDTO {
 export type {
     PasswordCreationDTO,
     PasswordRetrievalDTO,
-    DecryptedPasswordDTO,
     PasswordGenerationDTO,
     GeneratedPasswordDTO,
     PasswordUpdateDTO
