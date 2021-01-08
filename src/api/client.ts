@@ -18,7 +18,8 @@ export async function doRequest<T = void>(
     url: string,
     body?: any,
     parameters?: RequestParameters,
-    authenticated: boolean = true
+    authenticated: boolean = true,
+    config?: AxiosRequestConfig
 ): Promise<AxiosResponse<T | ApiErrorDTO>> {
     try {
         const token = getToken()
@@ -32,7 +33,8 @@ export async function doRequest<T = void>(
             method: RequestMethod[method],
             url,
             data: body,
-            headers: {}
+            headers: {},
+            ...config
         }
 
         if (parameters) {
